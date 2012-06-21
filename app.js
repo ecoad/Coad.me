@@ -35,9 +35,36 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-// Routes
+var chat = ["golly"];
 
+// Routes
 app.get('/', routes.index);
+
+function showChat(req, res){
+  console.log(chat);
+  res.render('chat', {"chat": chat});
+}
+
+app.get('/chat', showChat);
+
+app.post('/chat', function(req, res){
+  console.log(req.body.Message);
+
+  chat.push(req.body.Message);
+  showChat(req, res);
+});
+
+app.get('/cycle', function(req, res) {
+  var now = new Date()
+    , then = new Date('2012-07-31')
+    , days
+    , weeks;
+
+  days = Math.floor(((((then.getTime() - now.getTime()) / 1000) / 60) / 60) / 24);
+  weeks = Math.ceil(days / 7);
+
+  res.render('cycle', {days: days, weeks: weeks});
+});
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
