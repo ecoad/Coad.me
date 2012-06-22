@@ -1,3 +1,4 @@
 ./*/public
 ./*/views
 ./.git/*
+public/css/*
